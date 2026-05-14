@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}All Feedback - FeedbackHub{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>All Feedback</h1>
+        <a href="{% url 'feedback:export_csv' %}" class="btn btn-success">📥 Export CSV</a>
+    </div>
+    <div class="card">
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Student</th><th>Lecturer</th><th>Course</th><th>Rating</th><th>Date</th><th>Actions</th></tr></thead>
+                <tbody>
+                {% for fb in feedbacks %}
+                <tr>
+                    <td>{{ fb.student.get_full_name }}</td>
+                    <td>{{ fb.lecturer.get_full_name }}</td>
+                    <td>{{ fb.course.code }}</td>
+                    <td><span class="stars-display">{% for i in "12345" %}{% if forloop.counter <= fb.rating %}★{% else %}☆{% endif %}{% endfor %}</span></td>
+                    <td>{% if fb.is_anonymous %}Yes{% else %}No{% endif %}</td>
+                    <td>{{ fb.created_at|date:"M d, Y" }}</td>
+                    <td><a href="{% url 'feedback:delete_feedback' fb.pk %}" class="btn btn-danger btn-sm">Delete</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

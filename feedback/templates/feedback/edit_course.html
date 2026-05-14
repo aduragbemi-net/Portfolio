@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Edit Course - FeedbackHub{% endblock %}
+{% block content %}
+<div class="container-sm">
+    <div class="card">
+        <div class="card-header">Edit Course: {{ course.code }}</div>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {{ field.errors }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{% url 'feedback:manage_courses' %}" class="btn btn-outline">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

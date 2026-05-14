@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Delete Course - FeedbackHub{% endblock %}
+{% block content %}
+<div class="container-sm">
+    <div class="card">
+        <div class="card-header">Delete Course</div>
+        <p>Are you sure you want to delete <strong>{{ course.name }}</strong> ({{ course.code }})? All related feedback will also be deleted.</p>
+        <form method="post" style="margin-top:1rem;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'feedback:manage_courses' %}" class="btn btn-outline">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

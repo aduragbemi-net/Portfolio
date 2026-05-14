@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Feedback System{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <nav class="navbar">
+        <a href="{% url 'accounts:dashboard' %}" class="navbar-brand">TU CFS</a>
+        <ul class="navbar-nav">
+            <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+            {% if user.role == 'student' %}
+                <li><a href="{% url 'feedback:submit_feedback' %}">Submit Feedback</a></li>
+                <li><a href="{% url 'feedback:my_feedbacks' %}">My Feedbacks</a></li>
+            {% elif user.role == 'lecturer' %}
+                <li><a href="{% url 'feedback:view_feedback' %}">View Feedback</a></li>
+            {% elif user.role == 'admin' %}
+                <li><a href="{% url 'accounts:manage_users' %}">Users</a></li>
+                <li><a href="{% url 'feedback:manage_courses' %}">Courses</a></li>
+                <li><a href="{% url 'feedback:all_feedbacks' %}">All Feedback</a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% if messages %}
+    <div class="container" style="padding-bottom:0;">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

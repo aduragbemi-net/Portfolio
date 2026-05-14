@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Submit Feedback - FeedbackHub{% endblock %}
+{% block content %}
+<div class="container-sm">
+    <div class="card">
+        <div class="card-header">Submit Feedback</div>
+        <form method="post" data-validate>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_course">Course</label>
+                {{ form.course }}
+                {{ form.course.errors }}
+            </div>
+            <div class="form-group">
+                <label>Rating</label>
+                <div class="star-rating">
+                    {% for i in "54321" %}
+                    <input type="radio" name="star" id="star{{ i }}" value="{{ i }}">
+                    <label for="star{{ i }}">★</label>
+                    {% endfor %}
+                </div>
+                {{ form.rating }}
+                {{ form.rating.errors }}
+            </div>
+            <div class="form-group">
+                <label for="id_comment">Comment</label>
+                {{ form.comment }}
+                {{ form.comment.errors }}
+            </div>
+            <div class="form-group">
+                <label for="id_suggestions">Suggestions (Optional)</label>
+                {{ form.suggestions }}
+                {{ form.suggestions.errors }}
+            </div>
+            <div class="form-group anonymous-option">
+                <label class="checkbox-label">
+                    {{ form.is_anonymous }}
+                    <span>🔒 Submit anonymously</span>
+                </label>
+                <small class="help-text">Your name will be hidden from the lecturer. Administrators can still see your identity.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

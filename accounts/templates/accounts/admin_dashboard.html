@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard - TU FeedbackHub{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Admin Dashboard</h1>
+        <a href="{% url 'feedback:export_csv' %}" class="btn btn-success">📥 Export CSV</a>
+    </div>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_students }}</div>
+            <div class="stat-label">Students</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ total_lecturers }}</div>
+            <div class="stat-label">Lecturers</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ total_courses }}</div>
+            <div class="stat-label">Courses</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ total_feedbacks }}</div>
+            <div class="stat-label">Feedbacks</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">Quick Actions</div>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+            <a href="{% url 'accounts:manage_users' %}" class="btn btn-primary">Manage Users</a>
+            <a href="{% url 'feedback:manage_courses' %}" class="btn btn-primary">Manage Courses</a>
+            <a href="{% url 'feedback:all_feedbacks' %}" class="btn btn-primary">View All Feedback</a>
+            <a href="{% url 'accounts:create_lecturer' %}" class="btn btn-outline">+ Add Lecturer</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">Recent Feedback</div>
+        {% for fb in recent_feedbacks %}
+        <div class="feedback-card">
+            <div class="feedback-meta">
+                <span>{{ fb.student.get_full_name }} → {{ fb.lecturer.get_full_name }} ({{ fb.course.code }})</span>
+                <span class="stars-display">{% for i in "12345" %}{% if forloop.counter <= fb.rating %}★{% else %}☆{% endif %}{% endfor %}</span>
+            </div>
+            <p>{{ fb.comment|truncatewords:20 }}</p>
+        </div>
+        {% empty %}
+        <p style="color:var(--text-light);">No feedback yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

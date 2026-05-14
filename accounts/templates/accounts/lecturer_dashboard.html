@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Lecturer Dashboard - FeedbackHub{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Welcome, {{ user.first_name }}!</h1>
+        <a href="{% url 'feedback:view_feedback' %}" class="btn btn-primary">View All Feedback</a>
+    </div>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">{{ avg_rating }}</div>
+            <div class="stat-label">Average Rating</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ total_feedbacks }}</div>
+            <div class="stat-label">Total Feedbacks</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ courses.count }}</div>
+            <div class="stat-label">My Courses</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">Recent Feedback</div>
+        {% for fb in feedbacks|slice:":5" %}
+        <div class="feedback-card">
+            <div class="feedback-meta">
+                <span><strong>{{ fb.course.name }}</strong> — {{ fb.student.get_full_name }}</span>
+                <span class="stars-display">{% for i in "12345" %}{% if forloop.counter <= fb.rating %}★{% else %}☆{% endif %}{% endfor %}</span>
+            </div>
+            <p>{{ fb.comment|truncatewords:30 }}</p>
+            <small style="color:var(--text-light);">{{ fb.created_at|date:"M d, Y" }}</small>
+        </div>
+        {% endfor %}
+        {% if not feedbacks %}
+        <p style="color:var(--text-light);">No feedback received yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Delete User - TU FeedbackHub{% endblock %}
+{% block content %}
+<div class="container-sm">
+    <div class="card">
+        <div class="card-header">Delete User</div>
+        <p>Are you sure you want to delete <strong>{{ user_obj.get_full_name }}</strong> ({{ user_obj.username }})?</p>
+        <form method="post" style="margin-top:1rem;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'accounts:manage_users' %}" class="btn btn-outline">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
