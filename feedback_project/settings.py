@@ -67,13 +67,18 @@ WSGI_APPLICATION = 'feedback_project.wsgi.application'
 # Falls back to SQLite for local development when no env var is set.
 # ------------------------------------------------------------------
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('MYSQLDATABASE'),
+        'USER': os.environ.get('MYSQLUSER'),
+        'PASSWORD': os.environ.get('MYSQLPASSWORD'),
+        'HOST': os.environ.get('MYSQLHOST'),
+        'PORT': os.environ.get('MYSQLPORT', '3306'),
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
+    }
 }
-
 # ------------------------------------------------------------------
 # CUSTOM USER MODEL
 # ------------------------------------------------------------------
