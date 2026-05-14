@@ -1,0 +1,14 @@
+﻿https://grok.com/share/c2hhcmQtNQ_62130257-44b0-48f8-9281-b09c01637b2b
+
+cd feedback_system
+python -m venv venv && 
+Set-ExecutionPolicy Unrestricted -Scope Process
+venv\Scripts\activate   # Windows
+pip install -r requirements.txt
+# Create 'feedback_db' database in phpMyAdmin first
+python manage.py makemigrations 
+accounts feedback
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
